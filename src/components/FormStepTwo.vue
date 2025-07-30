@@ -7,14 +7,18 @@ export default {
     return {
       store: useAuthStore(),
       participants: {
-        salutation: "",
         designation: "",
-        organization: "",
+        organisation: "",
+        dietary_preference: "",
+        about_event: "",
+        about_event_other: "",
       },
       error: {
-        salutation: "",
         designation: "",
-        organization: "",
+        organisation: "",
+        dietary_preference: "",
+        about_event: "",
+        about_event_other: "",
       },
     };
   },
@@ -24,27 +28,9 @@ export default {
     }
   },
   methods: {
-    validateForm() {
-      let valid = true;
-      if (!this.participants.organization) {
-        this.error.organization = "Organization is required";
-        valid = false;
-      }
-      if (!this.participants.designation) {
-        this.error.designation = "Designation is required";
-        valid = false;
-      }
-      if (!this.participants.salutation) {
-        this.error.salutation = "Salutation is required";
-        valid = false;
-      }
-      return valid;
-    },
     async secondStep() {
       try {
-        if (this.validateForm()) {
-          this.store.setStepTwoData(this.participants);
-        }
+        this.store.setStepTwoData(this.participants);
       } catch (error) {
         console.log(error);
       }
@@ -67,56 +53,83 @@ export default {
       </button>
     </div>
 
-    <div>
-      <div class="mb-7 flex flex-col">
-        <label for="salutation" class="text-2xl">Marital Status</label>
-        <select
-          name="salutation"
-          id="salutation"
-          class="border rounded-2xl p-3 mt-4 w-full"
-          v-model="participants.salutation"
-          @input="error.salutation = ''"
-        >
-          <option value="married">Married</option>
-          <option value="unmarried">Unmarried</option>
-        </select>
-      </div>
-      <p class="text-red-600">{{ error.salutation }}</p>
-      <div class="mb-7 flex flex-col">
-        <label for="designation" class="text-2xl">Designation</label>
-        <select
-          name="designation"
-          id="designation"
-          class="border rounded-2xl p-3 mt-4 w-full"
-          v-model="participants.designation"
-          @input="error.designation = ''"
-        >
-          <option value="speaker">Speaker</option>
-          <option value="auther">Auther</option>
-        </select>
-      </div>
+    <div class="mb-3 flex flex-col">
+      <label for="designation" class="text-2xl">Designation</label>
+      <select
+        name="designation"
+        id="designation"
+        class="border rounded-2xl p-3 mt-4 w-full"
+        v-model="participants.designation"
+        @input="error.designation = ''"
+      >
+        <option value="speaker">Speaker</option>
+        <option value="auther">Auther</option>
+      </select>
       <p class="text-red-600">{{ error.designation }}</p>
+    </div>
 
-      <div class="mb-5 flex flex-col">
-        <label for="organization" class="text-2xl">Organization</label>
-        <input
-          type="text"
-          name="organization"
-          id="organization"
-          class="border rounded-2xl p-2 mt-4 w-full"
-          v-model="participants.organization"
-          @input="error.organization = ''"
-        />
-        <p class="text-red-600 py-3">{{ error.organization }}</p>
-      </div>
-      <div>
-        <button
-          @click.prevent="secondStep()"
-          class="text-2xl text-white bg-red-800 py-2 px-5 rounded-4xl cursor-pointer"
-        >
-          NEXT
-        </button>
-      </div>
+    <div class="mb-[-12px] flex flex-col">
+      <label for="organisation" class="text-2xl">Organisation</label>
+      <input
+        type="text"
+        name="organisation"
+        id="organisation"
+        class="border rounded-2xl p-2 mt-4 w-full"
+        v-model="participants.organisation"
+        @input="error.organisation = ''"
+      />
+      <p class="text-red-600 py-3">{{ error.organisation }}</p>
+    </div>
+
+    <div class="mb-3 flex flex-col">
+      <label for="dietary_preference" class="text-2xl"
+        >Dietary Preference</label
+      >
+      <select
+        name="dietary_preference"
+        id="dietary_preference"
+        class="border rounded-2xl p-3 mt-4 w-full"
+        v-model="participants.dietary_preference"
+        @input="error.dietary_preference = ''"
+      >
+        <option value="Vegetarian">Vegetarian</option>
+        <option value="non_vegetarian">Non Vegetarian</option>
+      </select>
+      <p class="text-red-600">{{ error.dietary_preference }}</p>
+    </div>
+
+    <div class="mb-3 flex flex-col">
+      <label for="about_event" class="text-2xl"
+        >How did you know about this event</label
+      >
+      <select
+        name="about_event"
+        id="about_event"
+        class="border rounded-2xl p-3 mt-4 w-full"
+        v-model="participants.about_event"
+        @input="error.about_event = ''"
+      >
+        <option value="social_media">Social Media</option>
+        <option value="television">Television</option>
+        <option value="others">Others</option>
+      </select>
+      <input
+        name="about_event_other"
+        id="about_event_other"
+        v-model="participants.about_event_other"
+        v-if="participants.about_event === 'others'"
+        class="border rounded-2xl p-3 mt-4 w-full"
+        type="text"
+      />
+      <p class="text-red-600">{{ error.about_event }}</p>
+    </div>
+    <div>
+      <button
+        @click.prevent="secondStep()"
+        class="text-2xl text-white bg-red-800 py-2 px-5 rounded-4xl cursor-pointer"
+      >
+        NEXT
+      </button>
     </div>
   </form>
 </template>

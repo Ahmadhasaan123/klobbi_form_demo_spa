@@ -7,14 +7,20 @@ export default {
     return {
       store: useAuthStore(),
       participants: {
-        name: "",
+        salutation: "",
+        first_name: "",
+        last_name: "",
         email: "",
-        password: "",
+        personal_email: "",
+        phone: "",
       },
       error: {
-        name: "",
+        salutation: "",
+        first_name: "",
+        last_name: "",
         email: "",
-        password: "",
+        personal_email: "",
+        phone: "",
       },
     };
   },
@@ -29,28 +35,10 @@ export default {
       this.error.email = "";
       this.error.password = "";
     },
-    validateForm() {
-      let valid = true;
-      if (!this.participants.name) {
-        this.error.name = "Name is required";
-        valid = false;
-      }
-      if (!this.participants.email) {
-        this.error.email = "Email is required";
-        valid = false;
-      }
-      if (!this.participants.password) {
-        this.error.password = "Password is required";
-        valid = false;
-      }
-      return valid;
-    },
     async nextStep() {
       try {
-        if (this.validateForm()) {
-          const store = useAuthStore();
-          store.setStepOneData(this.participants);
-        }
+        const store = useAuthStore();
+        store.setStepOneData(this.participants);
       } catch (error) {
         console.log(error);
       }
@@ -63,42 +51,86 @@ export default {
   <form>
     <h1 class="text-5xl font-bold my-6 text-red-800">Step 1</h1>
     <div>
-      <div class="mb-2">
-        <label for="staff_Id" class="text-2xl">Name</label>
-        <input
-          type="text"
-          name="staff_Id"
-          id="staff_Id"
-          class="border rounded-2xl p-2 mt-4 w-full"
-          v-model="participants.name"
-          @input="error.name = ''"
-        />
-        <p class="text-red-600 py-3">{{ error.name }}</p>
+      <div>
+        <div class="mb-3 flex flex-col">
+          <label for="salutation" class="text-2xl">Salutation</label>
+          <select
+            name="salutation"
+            id="salutation"
+            class="border rounded-2xl p-3 mt-4 w-full"
+            v-model="participants.salutation"
+            @input="error.salutation = ''"
+          >
+            <option value="Mr">Mr</option>
+            <option value="Ms">Ms</option>
+            <option value="Dr">Dr</option>
+            <option value="Prof">Prof</option>
+          </select>
+          <p class="text-red-600">{{ error.salutation }}</p>
+        </div>
+
+        <div class="mb-3">
+          <label for="first_name" class="text-2xl">First Name</label>
+          <input
+            type="text"
+            name="first_name"
+            id="first_name"
+            class="border rounded-2xl p-2 mt-4 w-full"
+            v-model="participants.first_name"
+            @input="error.first_name = ''"
+          />
+          <p class="text-red-600">{{ error.first_name }}</p>
+        </div>
+        <div class="mb-3">
+          <label for="last_name" class="text-2xl">last Name</label>
+          <input
+            type="text"
+            name="last_name"
+            id="last_name"
+            class="border rounded-2xl p-2 mt-4 w-full"
+            v-model="participants.last_name"
+            @input="error.last_name = ''"
+          />
+          <p class="text-red-600">{{ error.last_name }}</p>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="text-2xl"> Email </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            class="border rounded-2xl p-2 mt-4 w-full"
+            v-model="participants.email"
+            @input="error.email = ''"
+          />
+          <p class="text-red-600">{{ error.email }}</p>
+        </div>
+        <div class="mb-3">
+          <label for="personal_email" class="text-2xl"> Personal Email </label>
+          <input
+            type="email"
+            name="personal_email"
+            id="personal_email"
+            class="border rounded-2xl p-2 mt-4 w-full"
+            v-model="participants.personal_email"
+            @input="error.personal_email = ''"
+          />
+          <p class="text-red-600">{{ error.personal_email }}</p>
+        </div>
+        <div class="mb-3">
+          <label for="phone" class="text-2xl"> Phone Number </label>
+          <input
+            type="number"
+            name="phone"
+            id="phone"
+            class="border rounded-2xl p-2 mt-4 w-full"
+            v-model="participants.phone"
+            @input="error.phone = ''"
+          />
+          <p class="text-red-600">{{ error.phone }}</p>
+        </div>
       </div>
-      <div class="mb-2">
-        <label for="email" class="text-2xl">Email</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          class="border rounded-2xl p-2 mt-4 w-full"
-          v-model="participants.email"
-          @input="error.email = ''"
-        />
-        <p class="text-red-600 py-3">{{ error.email }}</p>
-      </div>
-      <div class="mb-2">
-        <label for="password" class="text-2xl">Password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          class="border rounded-2xl p-2 mt-4 w-full"
-          v-model="participants.password"
-          @input="error.password = ''"
-        />
-        <p class="text-red-600 py-3">{{ error.password }}</p>
-      </div>
+
       <div>
         <button
           @click.prevent="nextStep()"

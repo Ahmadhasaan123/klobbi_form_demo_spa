@@ -11,11 +11,6 @@ const routes = [
     name: "register",
     component: () => import("../views/Register.vue"),
   },
-  {
-    path: "/chat",
-    name: "chat",
-    component: () => import("../views/Chat.vue"),
-  },
 ];
 
 const router = createRouter({

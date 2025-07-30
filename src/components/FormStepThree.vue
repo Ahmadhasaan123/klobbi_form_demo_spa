@@ -5,28 +5,19 @@ export default {
   name: "FormStepThree",
   data() {
     return {
+      participants: {
+        terms_condition: "",
+      },
       store: useAuthStore(),
-      checkbox: ["terms", "privacy"],
       success: false,
       error: {
-        terms: "",
+        terms_condition: "",
       },
     };
   },
   methods: {
-    validateForm() {
-      this.error.terms = "";
-      if (this.checkbox.length < 2) {
-        this.error.terms = "You must agree to both terms and privacy policy.";
-        return false;
-      }
-      return true;
-    },
-
     async register() {
       const store = useAuthStore();
-
-      if (!this.validateForm()) return;
 
       const finalData = {
         ...store.stepOneData,
@@ -68,34 +59,24 @@ export default {
     </div>
 
     <div>
-      <div class="mb-3 flex">
-        <input
-          type="checkbox"
-          value="terms"
-          name="terms"
-          id="terms"
-          class="m-3"
-          v-model="checkbox"
-        />
-        <label for="terms" class="text-lg m-3">
-          Accept Our Terms and Conditions
-        </label>
-      </div>
-      <div class="mb-3 flex">
-        <input
-          type="checkbox"
-          name="privacy"
-          id="privacy"
-          v-model="checkbox"
-          value="privacy"
-          class="m-3"
-        />
-        <label for="privacy" class="text-lg m-3">
-          Agree to our Privacy Policy
-        </label>
+      <div class="mb-3">
+        <label for="checkbox" class="text-2xl">Terms & Conditions</label>
+        <div class="my-3 flex">
+          <input
+            type="checkbox"
+            value="terms"
+            name="terms"
+            id="terms"
+            class="m-3"
+            v-model="participants.terms_condition"
+          />
+          <label for="terms" class="text-lg m-3">
+            Accept Our Terms and Conditions
+          </label>
+        </div>
       </div>
 
-      <p class="text-red-600 py-2">{{ error.terms }}</p>
+      <p class="text-red-600 py-2">{{ error.terms_condition }}</p>
 
       <div>
         <button
